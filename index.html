@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Arcade</title>
+    <title>Dashboard</title>
     <style>
         body { margin: 0; font-family: sans-serif; background-color: #121212; color: white; text-align: center; }
         header { background-color: #1f1f1f; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
@@ -21,54 +21,16 @@
 <body>
 
     <header>
-        <h1 id="page-title">My Arcade</h1>
+        <h1 id="page-title">Workspace Directory</h1>
     </header>
 
     <div class="grid" id="menu-grid">
-
-        <div class="card" onclick="playGame('https://se97.github.io/g7/slope/', 'Slope')">
-            <h3>Slope</h3>
+        <div class="card" onclick="playGame('game1.html', 'Mini Game 1')">
+            <h3>Module 1</h3>
         </div>
-
-        <div class="card" onclick="playGame('https://se97.github.io/g13/retro-bowl/', 'Retro Bowl')">
-            <h3>Retro Bowl</h3>
-        </div>
-
-        <div class="card" onclick="playGame('https://se97.github.io/g7/bitlife/', 'Bitlife')">
-            <h3>Bitlife</h3>
-        </div>
-
-        <div class="card" onclick="playGame('https://se97.github.io/g5/1v1lol/', '1v1.LOL')">
-            <h3>1v1.LOL</h3>
-        </div>
-
-        <div class="card" onclick="playGame('https://se97.github.io/g11/subway-surfers/', 'Subway Surfers')">
-            <h3>Subway Surfers</h3>
-        </div>
-
-        <div class="card" onclick="playGame('https://se97.github.io/g2/temple-run-2/', 'Temple Run 2')">
-            <h3>Temple Run 2</h3>
-        </div>
-
-        <div class="card" onclick="playGame('https://se97.github.io/g3/minecraft-classic/', 'Minecraft')">
-            <h3>Minecraft</h3>
-        </div>
-
-        <div class="card" onclick="playGame('https://se97.github.io/g2/crossyroad/', 'Crossy Road')">
-            <h3>Crossy Road</h3>
-        </div>
-
-        <div class="card" onclick="playGame('https://se97.github.io/g6/drive-mad/', 'Drive Mad')">
-            <h3>Drive Mad</h3>
-        </div>
-
-        <div class="card" onclick="playGame('https://se97.github.io/g15/geometry-dash/', 'Geometry Dash')">
-            <h3>Geometry Dash</h3>
-        </div>
-
     </div>
 
-    <button class="back-btn" id="back-button" onclick="closeGame()">← Back to Menu</button>
+    <button class="back-btn" id="back-button" onclick="closeGame()">← Back to Dashboard</button>
     <div id="game-container">
         <iframe id="game-frame" src="" allowfullscreen></iframe>
     </div>
@@ -86,7 +48,7 @@
             document.getElementById('game-container').style.display = 'none';
             document.getElementById('back-button').style.display = 'none';
             document.getElementById('game-frame').src = '';
-            document.getElementById('page-title').innerText = "My Arcade";
+            document.getElementById('page-title').innerText = "Workspace Directory";
         }
     </script>
 </body>
