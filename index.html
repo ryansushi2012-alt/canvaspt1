@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>my personal Dashboard</title>
+    <title>Workspace Dashboard</title>
     <style>
         body { margin: 0; font-family: sans-serif; background-color: #121212; color: white; text-align: center; }
         header { background-color: #1f1f1f; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
@@ -12,8 +12,12 @@
         .card { background-color: #222831; border-radius: 8px; padding: 30px 20px; cursor: pointer; transition: 0.2s; border: 1px solid #393e46; }
         .card:hover { transform: translateY(-5px); background-color: #393e46; border-color: #00adb5; }
         .card h3 { margin: 0; font-size: 20px; }
-        #game-container { display: none; width: 100%; max-width: 900px; height: 650px; margin: 20px auto; }
+        
+        /* Game View Screens */
+        #game-container, #breakout-container { display: none; width: 100%; max-width: 900px; height: 650px; margin: 20px auto; }
         iframe { width: 100%; height: 100%; border: 2px solid #00adb5; border-radius: 8px; background: #000; }
+        canvas { background: #222; display: block; margin: 0 auto; border: 4px solid #00adb5; border-radius: 8px; }
+        
         .back-btn { display: none; margin: 20px auto; padding: 10px 25px; background-color: #00adb5; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 16px; }
         .back-btn:hover { background-color: #007c82; }
     </style>
@@ -25,30 +29,124 @@
     </header>
 
     <div class="grid" id="menu-grid">
-        <div class="card" onclick="playGame('game1.html', 'Mini Game 1')">
-            <h3>Module 1</h3>
+        <div class="card" onclick="startBreakout()">
+            <h3>Module 1: Breakout</h3>
+        </div>
+        <div class="card" onclick="playIframeGame('https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://cdn.jsdelivr.net/gh/gertd7/g7@main/rb.xml', 'Retro Bowl')">
+            <h3>Module 2: Retro Bowl</h3>
+        </div>
+        <div class="card" onclick="playIframeGame('https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://cdn.jsdelivr.net/gh/r3v0l7/911@main/slope.xml', 'Slope')">
+            <h3>Module 3: Slope</h3>
         </div>
     </div>
 
-    <button class="back-btn" id="back-button" onclick="closeGame()">← Back to Dashboard</button>
+    <button class="back-btn" id="back-button" onclick="closeArcade()">← Back to Dashboard</button>
+
     <div id="game-container">
         <iframe id="game-frame" src="" allowfullscreen></iframe>
     </div>
 
+    <div id="breakout-container">
+        <div id="score-board" style="font-size: 24px; margin-bottom: 10px;">Score: 0</div>
+        <canvas id="gameCanvas" width="480" height="320"></canvas>
+    </div>
+
     <script>
-        function playGame(url, name) {
+        // System variables
+        let animationId;
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        
+        function playIframeGame(url, name) {
             document.getElementById('menu-grid').style.display = 'none';
             document.getElementById('game-container').style.display = 'block';
             document.getElementById('back-button').style.display = 'block';
             document.getElementById('game-frame').src = url;
             document.getElementById('page-title').innerText = name;
         }
-        function closeGame() {
+
+        function closeArcade() {
+            // Stop any running local game loops
+            cancelAnimationFrame(animationId);
+            
             document.getElementById('menu-grid').style.display = 'grid';
             document.getElementById('game-container').style.display = 'none';
+            document.getElementById('breakout-container').style.display = 'none';
             document.getElementById('back-button').style.display = 'none';
             document.getElementById('game-frame').src = '';
             document.getElementById('page-title').innerText = "Workspace Directory";
+        }
+
+        // --- LOCAL BREAKOUT CORE ENGINE ---
+        function startBreakout() {
+            document.getElementById('menu-grid').style.display = 'none';
+            document.getElementById('breakout-container').style.display = 'block';
+            document.getElementById('back-button').style.display = 'block';
+            document.getElementById('page-title').innerText = "Breakout";
+            
+            // Reset configurations
+            let score = 0;
+            let x = canvas.width / 2;
+            let y = canvas.height - 30;
+            let dx = 3; let dy = -3;
+            let paddleWidth = 75; let paddleHeight = 12;
+            let paddleX = (canvas.width - paddleWidth) / 2;
+            document.getElementById("score-board").innerText = "Score: 0";
+
+            let bricks = [];
+            for (let c = 0; c < 5; c++) {
+                bricks[c] = [];
+                for (let r = 0; r < 4; r++) { bricks[c][r] = { x: 0, y: 0, status: 1 }; }
+            }
+
+            document.onmousemove = function(e) {
+                let relativeX = e.clientX - canvas.offsetLeft;
+                if (relativeX > 0 && relativeX < canvas.width) paddleX = relativeX - paddleWidth / 2;
+            };
+
+            function runEngine() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw Bricks
+                for (let c = 0; c < 5; c++) {
+                    for (let r = 0; r < 4; r++) {
+                        if (bricks[c][r].status == 1) {
+                            let bx = (c * 85) + 30; let by = (r * 30) + 30;
+                            bricks[c][r].x = bx; bricks[c][r].y = by;
+                            ctx.beginPath(); ctx.rect(bx, by, 75, 20);
+                            ctx.fillStyle = r % 2 === 0 ? "#e23e57" : "#ff5722";
+                            ctx.fill(); ctx.closePath();
+                        }
+                    }
+                }
+
+                // Draw Ball & Paddle
+                ctx.beginPath(); ctx.arc(x, y, 8, 0, Math.PI*2); ctx.fillStyle = "#ffde22"; ctx.fill(); ctx.closePath();
+                ctx.beginPath(); ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight); ctx.fillStyle = "#00adb5"; ctx.fill(); ctx.closePath();
+
+                // Physics & Collisions
+                for (let c = 0; c < 5; c++) {
+                    for (let r = 0; r < 4; r++) {
+                        let b = bricks[c][r];
+                        if (b.status == 1 && x > b.x && x < b.x + 75 && y > b.y && y < b.y + 20) {
+                            dy = -dy; b.status = 0; score++;
+                            document.getElementById("score-board").innerText = "Score: " + score;
+                            if (score == 20) { alert("YOU WIN!"); closeArcade(); return; }
+                        }
+                    }
+                }
+
+                if (x + dx > canvas.width - 8 || x + dx < 8) dx = -dx;
+                if (y + dy < 8) dy = -dy;
+                else if (y + dy > canvas.height - 8) {
+                    if (x > paddleX && x < paddleX + paddleWidth) dy = -dy;
+                    else { alert("GAME OVER"); closeArcade(); return; }
+                }
+
+                x += dx; y += dy;
+                animationId = requestAnimationFrame(runEngine);
+            }
+            runEngine();
         }
     </script>
 </body>
