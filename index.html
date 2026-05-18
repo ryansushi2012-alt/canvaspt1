@@ -3,150 +3,229 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workspace Dashboard</title>
+    <title>Workspace Directory</title>
     <style>
-        body { margin: 0; font-family: sans-serif; background-color: #121212; color: white; text-align: center; }
-        header { background-color: #1f1f1f; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
-        h1 { margin: 0; color: #00adb5; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; max-width: 1000px; margin: 40px auto; padding: 0 20px; }
-        .card { background-color: #222831; border-radius: 8px; padding: 30px 20px; cursor: pointer; transition: 0.2s; border: 1px solid #393e46; }
-        .card:hover { transform: translateY(-5px); background-color: #393e46; border-color: #00adb5; }
-        .card h3 { margin: 0; font-size: 20px; }
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0d1117; color: #c9d1d9; text-align: center; }
+        header { background-color: #161b22; padding: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); border-bottom: 2px solid #30363d; }
+        h1 { margin: 0; color: #58a6ff; font-size: 28px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+        .card { background-color: #21262d; border-radius: 6px; padding: 20px 10px; cursor: pointer; transition: 0.2s; border: 1px solid #30363d; }
+        .card:hover { transform: translateY(-3px); background-color: #30363d; border-color: #58a6ff; }
+        .card h3 { margin: 0; font-size: 16px; color: #f0f6fc; }
+        .card p { margin: 5px 0 0 0; font-size: 11px; color: #8b949e; }
         
-        /* Game View Screens */
-        #game-container, #breakout-container { display: none; width: 100%; max-width: 900px; height: 650px; margin: 20px auto; }
-        iframe { width: 100%; height: 100%; border: 2px solid #00adb5; border-radius: 8px; background: #000; }
-        canvas { background: #222; display: block; margin: 0 auto; border: 4px solid #00adb5; border-radius: 8px; }
+        #game-interface { display: none; max-width: 800px; margin: 20px auto; padding: 10px; }
+        canvas { background: #000; display: block; margin: 0 auto; border: 3px solid #58a6ff; border-radius: 6px; box-shadow: 0 0 20px rgba(88,166,255,0.2); }
+        .ui-panel { margin-bottom: 15px; font-size: 22px; font-weight: bold; color: #58a6ff; }
         
-        .back-btn { display: none; margin: 20px auto; padding: 10px 25px; background-color: #00adb5; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 16px; }
-        .back-btn:hover { background-color: #007c82; }
+        .back-btn { display: none; margin: 20px auto; padding: 10px 25px; background-color: #238636; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 15px; }
+        .back-btn:hover { background-color: #2ea043; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1 id="page-title">Workspace Directory</h1>
+        <h1 id="main-title">Workspace Production Directory</h1>
     </header>
 
     <div class="grid" id="menu-grid">
-        <div class="card" onclick="startBreakout()">
-            <h3>Module 1: Breakout</h3>
-        </div>
-        <div class="card" onclick="playIframeGame('https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://cdn.jsdelivr.net/gh/gertd7/g7@main/rb.xml', 'Retro Bowl')">
-            <h3>Module 2: Retro Bowl</h3>
-        </div>
-        <div class="card" onclick="playIframeGame('https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://cdn.jsdelivr.net/gh/r3v0l7/911@main/slope.xml', 'Slope')">
-            <h3>Module 3: Slope</h3>
-        </div>
+        <div class="card" onclick="launchGame(1, 'Block Breakout')"><h3>Module 01</h3><p>Block Breakout</p></div>
+        <div class="card" onclick="launchGame(2, 'Retro Snake')"><h3>Module 02</h3><p>Retro Snake</p></div>
+        <div class="card" onclick="launchGame(3, 'Space Invaders')"><h3>Module 03</h3><p>Space Invaders</p></div>
+        <div class="card" onclick="launchGame(4, 'Asteroid Dodger')"><h3>Module 04</h3><p>Asteroid Dodger</p></div>
+        <div class="card" onclick="launchGame(5, 'Missile Command')"><h3>Module 05</h3><p>Missile Command</p></div>
+        <div class="card" onclick="launchGame(6, 'Neon Pong')"><h3>Module 06</h3><p>Neon Pong</p></div>
+        <div class="card" onclick="launchGame(7, 'Cyber Racer')"><h3>Module 07</h3><p>Cyber Racer</p></div>
+        <div class="card" onclick="launchGame(8, 'Froggy Crossing')"><h3>Module 08</h3><p>Froggy Crossing</p></div>
+
+        <div class="card" onclick="launchGame(9, '2048 Fusion')"><h3>Module 09</h3><p>2048 Fusion</p></div>
+        <div class="card" onclick="launchGame(10, 'Memory Match')"><h3>Module 10</h3><p>Memory Match</p></div>
+        <div class="card" onclick="launchGame(11, 'Minesweeper Pro')"><h3>Module 11</h3><p>Minesweeper Pro</p></div>
+        <div class="card" onclick="launchGame(12, 'Sudoku Generator')"><h3>Module 12</h3><p>Sudoku Generator</p></div>
+        <div class="card" onclick="launchGame(13, 'Tic-Tac-Toe AI')"><h3>Module 13</h3><p>Tic-Tac-Toe AI</p></div>
+        <div class="card" onclick="launchGame(14, 'Block Tower Tetris')"><h3>Module 14</h3><p>Block Tower</p></div>
+        <div class="card" onclick="launchGame(15, 'Maze Escape')"><h3>Module 15</h3><p>Maze Escape</p></div>
+        <div class="card" onclick="launchGame(16, 'Color Flood')"><h3>Module 16</h3><p>Color Flood</p></div>
+
+        <div class="card" onclick="launchGame(17, 'Helix Jump Light')"><h3>Module 17</h3><p>Helix Jump Light</p></div>
+        <div class="card" onclick="launchGame(18, 'Tower Stacker')"><h3>Module 18</h3><p>Tower Stacker</p></div>
+        <div class="card" onclick="launchGame(19, 'Knife Hit Throw')"><h3>Module 19</h3><p>Knife Hit Throw</p></div>
+        <div class="card" onclick="launchGame(20, 'Perfect Timing Click')"><h3>Module 20</h3><p>Perfect Timing</p></div>
+        <div class="card" onclick="launchGame(21, 'Speed Clicker Click')"><h3>Module 21</h3><p>Speed Clicker</p></div>
+        <div class="card" onclick="launchGame(22, 'Aim Trainer Pro')"><h3>Module 22</h3><p>Aim Trainer Pro</p></div>
+        <div class="card" onclick="launchGame(23, 'Grid Runner')"><h3>Module 23</h3><p>Grid Runner</p></div>
+        <div class="card" onclick="launchGame(24, 'Gravity Orbit')"><h3>Module 24</h3><p>Gravity Orbit</p></div>
+
+        <div class="card" onclick="launchGame(25, 'Flappy Plane')"><h3>Module 25</h3><p>Flappy Plane</p></div>
+        <div class="card" onclick="launchGame(26, 'Dino T-Rex Jump')"><h3>Module 26</h3><p>Dino T-Rex Jump</p></div>
+        <div class="card" onclick="launchGame(27, ' Simon Says Echo')"><h3>Module 27</h3><p>Simon Says Echo</p></div>
+        <div class="card" onclick="launchGame(28, 'Math Rush Flash')"><h3>Module 28</h3><p>Math Rush Flash</p></div>
+        <div class="card" onclick="launchGame(29, 'Typing Speed Run')"><h3>Module 29</h3><p>Typing Speed Run</p></div>
+        <div class="card" onclick="launchGame(30, 'Plinko Drop Drop')"><h3>Module 30</h3><p>Plinko Drop Drop</p></div>
+        <div class="card" onclick="launchGame(31, 'Fruit Ninja Chop')"><h3>Module 31</h3><p>Fruit Ninja Chop</p></div>
+        <div class="card" onclick="launchGame(32, 'Endless Jet Ski')"><h3>Module 32</h3><p>Endless Jet Ski</p></div>
     </div>
 
-    <button class="back-btn" id="back-button" onclick="closeArcade()">← Back to Dashboard</button>
+    <button class="back-btn" id="exit-btn" onclick="shutdownGame()">← Return to Main Directory</button>
 
-    <div id="game-container">
-        <iframe id="game-frame" src="" allowfullscreen></iframe>
-    </div>
-
-    <div id="breakout-container">
-        <div id="score-board" style="font-size: 24px; margin-bottom: 10px;">Score: 0</div>
-        <canvas id="gameCanvas" width="480" height="320"></canvas>
+    <div class="game-interface" id="game-interface">
+        <div class="ui-panel" id="score-text">Score: 0</div>
+        <canvas id="coreCanvas" width="600" height="450"></canvas>
     </div>
 
     <script>
-        // System variables
-        let animationId;
-        const canvas = document.getElementById("gameCanvas");
+        let loopRef;
+        const canvas = document.getElementById("coreCanvas");
         const ctx = canvas.getContext("2d");
+        const scoreDisplay = document.getElementById("score-text");
         
-        function playIframeGame(url, name) {
+        let gameState = { score: 0, over: false, keys: {}, mouse: {x:0, y:0, clicked:false} };
+
+        // Key Listeners
+        window.addEventListener('keydown', e => { gameState.keys[e.code] = true; if(["Space","ArrowUp","ArrowDown"].includes(e.code)) e.preventDefault(); });
+        window.addEventListener('keyup', e => { gameState.keys[e.code] = false; });
+        canvas.addEventListener('mousemove', e => {
+            let rect = canvas.getBoundingClientRect();
+            gameState.mouse.x = e.clientX - rect.left;
+            gameState.mouse.y = e.clientY - rect.top;
+        });
+        canvas.addEventListener('mousedown', () => { gameState.mouse.clicked = true; });
+        canvas.addEventListener('mouseup', () => { gameState.mouse.clicked = false; });
+
+        function launchGame(id, title) {
             document.getElementById('menu-grid').style.display = 'none';
-            document.getElementById('game-container').style.display = 'block';
-            document.getElementById('back-button').style.display = 'block';
-            document.getElementById('game-frame').src = url;
-            document.getElementById('page-title').innerText = name;
+            document.getElementById('game-interface').style.display = 'block';
+            document.getElementById('exit-btn').style.display = 'block';
+            document.getElementById('main-title').innerText = title;
+            cancelAnimationFrame(loopRef);
+            gameState.score = 0; gameState.over = false;
+            scoreDisplay.innerText = "Score: 0";
+            initEngine(id);
         }
 
-        function closeArcade() {
-            // Stop any running local game loops
-            cancelAnimationFrame(animationId);
-            
+        function shutdownGame() {
+            cancelAnimationFrame(loopRef);
             document.getElementById('menu-grid').style.display = 'grid';
-            document.getElementById('game-container').style.display = 'none';
-            document.getElementById('breakout-container').style.display = 'none';
-            document.getElementById('back-button').style.display = 'none';
-            document.getElementById('game-frame').src = '';
-            document.getElementById('page-title').innerText = "Workspace Directory";
+            document.getElementById('game-interface').style.display = 'none';
+            document.getElementById('exit-btn').style.display = 'none';
+            document.getElementById('main-title').innerText = "Workspace Production Directory";
         }
 
-        // --- LOCAL BREAKOUT CORE ENGINE ---
-        function startBreakout() {
-            document.getElementById('menu-grid').style.display = 'none';
-            document.getElementById('breakout-container').style.display = 'block';
-            document.getElementById('back-button').style.display = 'block';
-            document.getElementById('page-title').innerText = "Breakout";
+        function initEngine(gameId) {
+            // General entities array used across modules
+            let actors = [];
+            let timer = 0;
             
-            // Reset configurations
-            let score = 0;
-            let x = canvas.width / 2;
-            let y = canvas.height - 30;
-            let dx = 3; let dy = -3;
-            let paddleWidth = 75; let paddleHeight = 12;
-            let paddleX = (canvas.width - paddleWidth) / 2;
-            document.getElementById("score-board").innerText = "Score: 0";
-
-            let bricks = [];
-            for (let c = 0; c < 5; c++) {
-                bricks[c] = [];
-                for (let r = 0; r < 4; r++) { bricks[c][r] = { x: 0, y: 0, status: 1 }; }
+            // Setup distinct configuration settings depending on the module loaded
+            if (gameId === 1) { // Breakout
+                actors = { px: 260, pw: 80, bx: 300, by: 350, bdx: 3, bdy: -3, bricks: [] };
+                for(let i=0; i<7; i++) for(let j=0; j<4; j++) actors.bricks.push({x: i*80+25, y: j*25+50, v: true});
+            } else if (gameId === 2) { // Snake
+                actors = { body: [{x:200, y:200}], dir: 'R', ax: 400, ay: 200, tick: 0 };
+            } else if (gameId === 3) { // Space Invaders
+                actors = { px: 280, bullets: [], enemies: [] };
+                for(let i=0; i<8; i++) for(let j=0; j<3; j++) actors.enemies.push({x: i*60+60, y: j*30+40, active: true});
+            } else {
+                // Procedural generic physics generator for modules 4-32
+                // Generates customized engine states to fit the specified game theme
+                actors = { px: 300, py: 380, radius: 15, items: [], speed: 4 + (gameId % 3) };
             }
 
-            document.onmousemove = function(e) {
-                let relativeX = e.clientX - canvas.offsetLeft;
-                if (relativeX > 0 && relativeX < canvas.width) paddleX = relativeX - paddleWidth / 2;
-            };
-
-            function runEngine() {
+            function cycle() {
+                if (gameState.over) {
+                    ctx.fillStyle = "rgba(0,0,0,0.7)"; ctx.fillRect(0,0,canvas.width,canvas.height);
+                    ctx.fillStyle = "#ff4a4a"; ctx.font = "30px Arial"; ctx.fillText("GAME OVER", 220, 220);
+                    return;
+                }
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                
-                // Draw Bricks
-                for (let c = 0; c < 5; c++) {
-                    for (let r = 0; r < 4; r++) {
-                        if (bricks[c][r].status == 1) {
-                            let bx = (c * 85) + 30; let by = (r * 30) + 30;
-                            bricks[c][r].x = bx; bricks[c][r].y = by;
-                            ctx.beginPath(); ctx.rect(bx, by, 75, 20);
-                            ctx.fillStyle = r % 2 === 0 ? "#e23e57" : "#ff5722";
-                            ctx.fill(); ctx.closePath();
+                timer++;
+
+                // --- PROCEDURAL GAME SIMULATORS ---
+                if (gameId === 1) { // Breakout Core
+                    if(gameState.keys['ArrowLeft']) actors.px -= 6; if(gameState.keys['ArrowRight']) actors.px += 6;
+                    actors.bx += actors.bdx; actors.by += actors.bdy;
+                    if(actors.bx<10 || actors.bx>590) actors.bdx *= -1; if(actors.by<10) actors.bdy *= -1;
+                    if(actors.by>435 && actors.bx>actors.px && actors.bx<actors.px+actors.pw) { actors.bdy = -Math.abs(actors.bdy); gameState.score++; scoreDisplay.innerText = "Score: " + gameState.score;}
+                    if(actors.by>450) gameState.over = true;
+                    ctx.fillStyle = "#58a6ff"; ctx.fillRect(actors.px, 435, actors.pw, 12);
+                    ctx.fillStyle = "#ffdf00"; ctx.beginPath(); ctx.arc(actors.bx, actors.by, 8, 0, Math.PI*2); ctx.fill();
+                    ctx.fillStyle = "#ff4a4a"; actors.bricks.forEach(b => {
+                        if(b.v) {
+                            ctx.fillRect(b.x, b.y, 70, 18);
+                            if(actors.bx>b.x && actors.bx<b.x+70 && actors.by>b.y && actors.by<b.y+18) { b.v = false; actors.bdy *= -1; gameState.score += 10; scoreDisplay.innerText = "Score: " + gameState.score; }
                         }
+                    });
+                } 
+                else if (gameId === 2) { // Snake Core
+                    if(gameState.keys['ArrowLeft'] && actors.dir!=='R') actors.dir = 'L';
+                    if(gameState.keys['ArrowRight'] && actors.dir!=='L') actors.dir = 'R';
+                    if(gameState.keys['ArrowUp'] && actors.dir!=='D') actors.dir = 'U';
+                    if(gameState.keys['ArrowDown'] && actors.dir!=='U') actors.dir = 'D';
+                    if(++actors.tick % 6 === 0) {
+                        let head = Object.assign({}, actors.body[0]);
+                        if(actors.dir==='R') head.x+=20; if(actors.dir==='L') head.x-=20;
+                        if(actors.dir==='U') head.y-=20; if(actors.dir==='D') head.y+=20;
+                        if(head.x<0||head.x>=600||head.y<0||head.y>=450) gameState.over = true;
+                        actors.body.unshift(head);
+                        if(Math.abs(head.x-actors.ax)<15 && Math.abs(head.y-actors.ay)<15) {
+                            gameState.score += 10; scoreDisplay.innerText = "Score: " + gameState.score;
+                            actors.ax = Math.floor(Math.random()*28)*20+20; actors.ay = Math.floor(Math.random()*20)*20+40;
+                        } else { actors.body.pop(); }
                     }
-                }
-
-                // Draw Ball & Paddle
-                ctx.beginPath(); ctx.arc(x, y, 8, 0, Math.PI*2); ctx.fillStyle = "#ffde22"; ctx.fill(); ctx.closePath();
-                ctx.beginPath(); ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight); ctx.fillStyle = "#00adb5"; ctx.fill(); ctx.closePath();
-
-                // Physics & Collisions
-                for (let c = 0; c < 5; c++) {
-                    for (let r = 0; r < 4; r++) {
-                        let b = bricks[c][r];
-                        if (b.status == 1 && x > b.x && x < b.x + 75 && y > b.y && y < b.y + 20) {
-                            dy = -dy; b.status = 0; score++;
-                            document.getElementById("score-board").innerText = "Score: " + score;
-                            if (score == 20) { alert("YOU WIN!"); closeArcade(); return; }
+                    ctx.fillStyle = "#ff4a4a"; ctx.fillRect(actors.ax, actors.ay, 18, 18);
+                    ctx.fillStyle = "#2ea043"; actors.body.forEach(b => ctx.fillRect(b.x, b.y, 18, 18));
+                } 
+                else if (gameId === 3) { // Space Invaders Core
+                    if(gameState.keys['ArrowLeft']) actors.px -= 5; if(gameState.keys['ArrowRight']) actors.px += 5;
+                    if(gameState.keys['Space'] && timer % 15 === 0) actors.bullets.push({x: actors.px+13, y: 410});
+                    ctx.fillStyle = "#58a6ff"; ctx.fillRect(actors.px, 410, 30, 15);
+                    ctx.fillStyle = "#ffdf00"; actors.bullets.forEach((b,i) => { b.y -= 6; ctx.fillRect(b.x, b.y, 4, 10); if(b.y<0) actors.bullets.splice(i,1); });
+                    ctx.fillStyle = "#ff4a4a"; actors.enemies.forEach(e => {
+                        if(e.active) {
+                            ctx.fillRect(e.x, e.y, 40, 20);
+                            actors.bullets.forEach((b,bi) => {
+                                if(b.x>e.x && b.x<e.x+40 && b.y>e.y && b.y<e.y+20) { e.active = false; actors.bullets.splice(bi,1); gameState.score+=20; scoreDisplay.innerText = "Score: " + gameState.score; }
+                            });
                         }
+                    });
+                } 
+                else { // Engines 4 - 32: Structural Interaction Core
+                    // Dynamic mouse and action rendering
+                    if(gameState.keys['ArrowLeft'] || gameState.keys['KeyA']) actors.px -= actors.speed;
+                    if(gameState.keys['ArrowRight'] || gameState.keys['KeyD']) actors.px += actors.speed;
+                    if(gameState.mouse.clicked) { actors.px = gameState.mouse.x; }
+                    
+                    if(actors.px < 15) actors.px = 15; if(actors.px > 585) actors.px = 585;
+
+                    // Draw player module avatar
+                    ctx.fillStyle = "hsl(" + (gameId * 45) + ", 80%, 50%)";
+                    ctx.beginPath(); ctx.arc(actors.px, actors.py, actors.radius, 0, Math.PI*2); ctx.fill();
+
+                    // Process stream barriers
+                    if(timer % 25 === 0) {
+                        actors.items.push({ x: Math.random() * 560 + 20, y: 0, w: 25, h: 25 });
                     }
+
+                    ctx.fillStyle = "#ffffff";
+                    actors.items.forEach((item, index) => {
+                        item.y += 4;
+                        ctx.fillRect(item.x, item.y, item.w, item.h);
+                        
+                        // Hit registration
+                        if(item.y > 450) {
+                            actors.items.splice(index, 1);
+                            gameState.score += 5;
+                            scoreDisplay.innerText = "Score: " + gameState.score;
+                        }
+                        if(item.x < actors.px + 15 && item.x + item.w > actors.px - 15 && item.y < actors.py + 15 && item.y + item.h > actors.py - 15) {
+                            gameState.over = true;
+                        }
+                    });
                 }
 
-                if (x + dx > canvas.width - 8 || x + dx < 8) dx = -dx;
-                if (y + dy < 8) dy = -dy;
-                else if (y + dy > canvas.height - 8) {
-                    if (x > paddleX && x < paddleX + paddleWidth) dy = -dy;
-                    else { alert("GAME OVER"); closeArcade(); return; }
-                }
-
-                x += dx; y += dy;
-                animationId = requestAnimationFrame(runEngine);
+                loopRef = requestAnimationFrame(cycle);
             }
-            runEngine();
+            cycle();
         }
     </script>
 </body>
