@@ -3,112 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- A generic title helps avoid automated filters -->
-    <title>Personal Study Dashboard</title>
+    <title>My Arcade</title>
     <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #121212;
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        header {
-            background-color: #1f1f1f;
-            width: 100%;
-            padding: 20px 0;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        }
-        h1 {
-            margin: 0;
-            font-size: 24px;
-            color: #00adb5;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            max-width: 1000px;
-            width: 90%;
-            padding: 40px 0;
-        }
-        .card {
-            background-color: #222831;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: transform 0.2s, background-color 0.2s;
-            border: 1px solid #393e46;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            background-color: #393e46;
-            border-color: #00adb5;
-        }
-        .card h3 {
-            margin: 0;
-            font-size: 18px;
-        }
-        /* Hidden game container */
-        #game-container {
-            display: none;
-            width: 100%;
-            max-width: 800px;
-            height: 600px;
-            margin-top: 20px;
-            position: relative;
-        }
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: 2px solid #00adb5;
-            border-radius: 8px;
-            background-color: #000;
-        }
-        .back-btn {
-            display: none;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #00adb5;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .back-btn:hover {
-            background-color: #007c82;
-        }
+        body { margin: 0; font-family: sans-serif; background-color: #121212; color: white; text-align: center; }
+        header { background-color: #1f1f1f; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        h1 { margin: 0; color: #00adb5; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        .card { background-color: #222831; border-radius: 8px; padding: 30px 20px; cursor: pointer; transition: 0.2s; border: 1px solid #393e46; }
+        .card:hover { transform: translateY(-5px); background-color: #393e46; border-color: #00adb5; }
+        .card h3 { margin: 0; font-size: 20px; }
+        #game-container { display: none; width: 100%; max-width: 900px; height: 650px; margin: 20px auto; }
+        iframe { width: 100%; height: 100%; border: 2px solid #00adb5; border-radius: 8px; background: #000; }
+        .back-btn { display: none; margin: 20px auto; padding: 10px 25px; background-color: #00adb5; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 16px; }
+        .back-btn:hover { background-color: #007c82; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1 id="page-title">Workspace Directory</h1>
+        <h1 id="page-title">My Arcade</h1>
     </header>
 
-    <!-- Main Menu Grid -->
     <div class="grid" id="menu-grid">
-        <!-- You can change the titles and links to whatever games you want -->
-        <div class="card" onclick="playGame('https://play.biomes.gg/', 'Biomes')">
-            <h3>Project B</h3>
-        </div>
+
         <div class="card" onclick="playGame('https://3kh0-assets.github.io/ext-assets/slope/index.html', 'Slope')">
-            <h3>Simulation S</h3>
+            <h3>Slope</h3>
         </div>
-        <div class="card" onclick="playGame('https://v6p9d9t4.ssl.hwcdn.net/html/1952520/index.html', 'Retro Game')">
-            <h3>Task R</h3>
+
+        <div class="card" onclick="playGame('https://3kh0-assets.github.io/ext-assets/retro-bowl/index.html', 'Retro Bowl')">
+            <h3>Retro Bowl</h3>
         </div>
-        <div class="card" onclick="playGame('https://play.thewestforest.com/', 'Strategy')">
-            <h3>Module W</h3>
+
+        <div class="card" onclick="playGame('https://3kh0-assets.github.io/ext-assets/bitlife/index.html', 'Bitlife')">
+            <h3>Bitlife</h3>
         </div>
+
+        <div class="card" onclick="playGame('https://3kh0-assets.github.io/ext-assets/1v1-lol/index.html', '1v1.LOL')">
+            <h3>1v1.LOL</h3>
+        </div>
+
     </div>
 
-    <!-- Game Screen -->
     <button class="back-btn" id="back-button" onclick="closeGame()">← Back to Menu</button>
     <div id="game-container">
         <iframe id="game-frame" src="" allowfullscreen></iframe>
@@ -120,15 +55,14 @@
             document.getElementById('game-container').style.display = 'block';
             document.getElementById('back-button').style.display = 'block';
             document.getElementById('game-frame').src = url;
-            document.getElementById('page-title').innerText = "Reviewing: " + name;
+            document.getElementById('page-title').innerText = name;
         }
-
         function closeGame() {
             document.getElementById('menu-grid').style.display = 'grid';
             document.getElementById('game-container').style.display = 'none';
             document.getElementById('back-button').style.display = 'none';
             document.getElementById('game-frame').src = '';
-            document.getElementById('page-title').innerText = "Workspace Directory";
+            document.getElementById('page-title').innerText = "My Arcade";
         }
     </script>
 </body>
